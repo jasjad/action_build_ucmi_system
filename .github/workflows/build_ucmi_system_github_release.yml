@@ -103,6 +103,7 @@ jobs:
           sudo tar -zxvf "$GITHUB_WORKSPACE"/${{ env.device }}_files/boot_magisk.tar.gz -C "$GITHUB_WORKSPACE"/images
           sudo cp -r "$GITHUB_WORKSPACE"/${{ env.device }}/* "$GITHUB_WORKSPACE"/images
           sudo rm -rf "$GITHUB_WORKSPACE"/${{ env.device }}
+          sudo rm -rf "$GITHUB_WORKSPACE"/images/system/system/app/Updater
           # 删除预装 By PedroZ
           sudo rm -rf "$GITHUB_WORKSPACE"/images/system/system/app/MSA
           for files in MIShop MIUINewHome MIUIGameCenter MIUIHuanji MIUIYoupin MIUIDuokanReader MIUIEmail MIUIVipAccount SmartHome MIMediaEditor MIGalleryLockscreen Health; do
