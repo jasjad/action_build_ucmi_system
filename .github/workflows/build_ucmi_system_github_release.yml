@@ -50,15 +50,15 @@ jobs:
         run: |
           sudo chmod 777 "$GITHUB_WORKSPACE"/tools/payload-dumper-go
           sudo chmod 777 "$GITHUB_WORKSPACE"/tools/brotli
-          mkdir -p "$GITHUB_WORKSPACE"/UMIPRE
+          mkdir -p "$GITHUB_WORKSPACE"/THYMEPRE
           mkdir -p "$GITHUB_WORKSPACE"/${{ env.device }}
           mkdir -p "$GITHUB_WORKSPACE"/images
           mkdir -p "$GITHUB_WORKSPACE"/simages
           mkdir -p "$GITHUB_WORKSPACE"/zip
           mkdir -p "$GITHUB_WORKSPACE"/firmware
-          ZIP_NAME_UMIPRE=$(echo ${{ github.event.inputs.URL }} | cut -d"/" -f5)
-          7z x "$GITHUB_WORKSPACE"/$ZIP_NAME_UMIPRE -r -o"$GITHUB_WORKSPACE"/UMIPRE
-          rm -rf "$GITHUB_WORKSPACE"/$ZIP_NAME_UMIPRE
+          ZIP_NAME_THYMEPRE=$(echo ${{ github.event.inputs.URL }} | cut -d"/" -f5)
+          7z x "$GITHUB_WORKSPACE"/$ZIP_NAME_THYMEPRE -r -o"$GITHUB_WORKSPACE"/THYMEPRE
+          rm -rf "$GITHUB_WORKSPACE"/$ZIP_NAME_THYMEPRE
           7z x "$GITHUB_WORKSPACE"/${{ env.ORIGN_ZIP_NAME }} -r -o"$GITHUB_WORKSPACE"/${{ env.device }} firmware-update
           for i in odm vendor; do
               7z x "$GITHUB_WORKSPACE"/${{ env.ORIGN_ZIP_NAME }} -o"$GITHUB_WORKSPACE"/${{ env.device }} $i.transfer.list
@@ -74,13 +74,13 @@ jobs:
           sudo python3 "$GITHUB_WORKSPACE"/tools/imgextractorLinux.py "$GITHUB_WORKSPACE"/${{ env.device }}/vendor.img "$GITHUB_WORKSPACE"/${{ env.device }}
           rm -rf "$GITHUB_WORKSPACE"/${{ env.device }}/vendor.img
           for i in system product system_ext; do
-              "$GITHUB_WORKSPACE"/tools/payload-dumper-go -p $i "$GITHUB_WORKSPACE"/UMIPRE/payload.bin
+              "$GITHUB_WORKSPACE"/tools/payload-dumper-go -p $i "$GITHUB_WORKSPACE"/THYMEPRE/payload.bin
               mv "$GITHUB_WORKSPACE"/payload/$i.img "$GITHUB_WORKSPACE"/images/$i.img
               sudo python3 "$GITHUB_WORKSPACE"/tools/imgextractorLinux.py "$GITHUB_WORKSPACE"/images/$i.img "$GITHUB_WORKSPACE"/images
               rm -rf "$GITHUB_WORKSPACE"/images/$i.img
           done
           rm -rf "$GITHUB_WORKSPACE"/payload
-          rm -rf "$GITHUB_WORKSPACE"/UMIPRE
+          rm -rf "$GITHUB_WORKSPACE"/THYMEPRE
           rm -rf "$GITHUB_WORKSPACE"/${{ env.ORIGN_ZIP_NAME }}
       - name: 4.替换相关文件
         run: |
